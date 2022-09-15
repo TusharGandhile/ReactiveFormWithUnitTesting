@@ -1,0 +1,24 @@
+<h1>{{ value }}</h1>
+
+<hr>
+
+<button (click)="increment()" class="increment">Increment</button>
+
+<button (click)="decrement()" class="decrement">Decrement</button>
+
+<p class="message">
+  {{ message }}
+</p>
+
+<p id="par" [ngStyle]="{'color': (value==0 ? 'black' : 'green')}">it's working fine</p>
+<h1 id="header" [ngClass]="value < 10 ? 'font-blue' : 'font-red'">dffdfdfdd</h1>
+
+<button id="button1" (click)="button1Click()">button1 click event</button>
+<button id="button2" (click)="button2Click()">button2 click event</button>
+<input id="textbox1" placeholder="button1 value change" (input)="onchangeInput()">
+<input id="textbox2" placeholder="capture the event of input" (input)="onchangeLabelInput($event)">
+<h3>{{label}}</h3>
+
+<input type="text" class="form-control" id="textbox3"  [(ngModel)]="title">
+<h1>{{title}}</h1>
+<button (click)="setDefault()" id="button">button</button>
