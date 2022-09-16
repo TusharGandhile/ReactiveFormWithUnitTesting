@@ -13,8 +13,8 @@ export class TestComponent implements OnInit {
   message!: string;
   label: string='dotnet';
   title='test title';
-
-  
+  num=25;
+  selectedNum='one';
   constructor() { }
 
   ngOnInit(): void {

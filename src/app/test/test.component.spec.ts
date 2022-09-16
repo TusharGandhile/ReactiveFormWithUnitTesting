@@ -156,5 +156,38 @@ fixture.whenStable().then(() => {
       
     });
   }));
-  
+  // conditional rendering tests
+  it('test case to check number is greater than 20',()=>{
+    const element1:HTMLDivElement=fixture.debugElement.nativeElement.querySelector('#div1');
+    const element2:HTMLDivElement=fixture.debugElement.nativeElement.querySelector('#div2');
+    expect(element1).not.toBeNull();
+    expect(element2).toBeNull();
+    });
+    it('test case to check ng-template render correctly', () => {
+      component.num=15;
+      fixture.detectChanges();
+      const element1:HTMLDivElement=fixture.debugElement.nativeElement.querySelector('#ng1');
+      const element2:HTMLDivElement=fixture.debugElement.nativeElement.querySelector('#ng2');
+      expect(element1).toBeNull();
+      expect(element2).not.toBeNull();
+    });
+
+    // ngSwitch test cases  
+    it('should check ngSwitch-1',()=>{
+      const element1:HTMLDivElement=fixture.debugElement.nativeElement.querySelector('#parentdiv');
+
+      expect(element1.childElementCount).toEqual(1);
+      expect(element1.children.length).toEqual(1);  
+      expect(element1.children[0].innerHTML).toEqual('one is select'); 
+    })
+
+    it('should check ngSwitch-2',()=>{
+      const element2:HTMLDivElement=fixture.debugElement.nativeElement.querySelector('#parentdiv');
+      component.selectedNum="two";
+      fixture.detectChanges();
+      
+      expect(element2.childElementCount).toEqual(1);
+      expect(element2.children.length).toEqual(1);  
+      expect(element2.children[0].innerHTML).toEqual('two is select'); 
+    })
 });

@@ -22,3 +22,30 @@
 <input type="text" class="form-control" id="textbox3"  [(ngModel)]="title">
 <h1>{{title}}</h1>
 <button (click)="setDefault()" id="button">button</button>
+
+<div *ngIf="num>=20" id="div1">
+  num is greater than 20
+</div>
+<div *ngIf="num<20" id="div2">
+  num is less than 20
+</div>
+<div *ngIf="num>=20;then truecase;else falsecase">
+</div>
+<ng-template #truecase>
+  <p id="ng1">
+    number is greater than 20
+  </p>
+</ng-template>
+<ng-template #falsecase>
+  <p id="ng2">
+    number is less than 20
+  </p>
+</ng-template>
+
+<div [ngSwitch]="selectedNum" id="parentdiv">
+  <div *ngSwitchCase="'one'" id="divc1">one is select</div>
+  <div *ngSwitchCase="'two'" id="divc2">two is select</div>
+  <div *ngSwitchDefault id="divc3">Default is selected..</div>
+
+
+</div>
