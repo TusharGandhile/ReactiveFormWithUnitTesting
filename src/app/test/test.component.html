@@ -46,6 +46,16 @@
   <div *ngSwitchCase="'one'" id="divc1">one is select</div>
   <div *ngSwitchCase="'two'" id="divc2">two is select</div>
   <div *ngSwitchDefault id="divc3">Default is selected..</div>
+</div>
 
-
+<div *ngFor="let color of colorNames" class="ngFor1">
+  <div>{{color}}</div>
+</div>
+<p style="color: red;">Array list</p>
+<div *ngFor="let item of colorList" class="ngFor2">
+<div>{{item.name}} - {{item.id}}</div>
+</div>
+<p style="color: red;">Array list for ngFor properties</p>
+<div *ngFor="let item of colorList;let i=index;let f=first;let l=last;let e=even;let o=odd" class="ngFor3">
+<div>{{i}} - {{f}} - {{e}} - {{o}} - {{l}}</div>
 </div>

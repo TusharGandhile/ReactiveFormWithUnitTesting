@@ -1,5 +1,5 @@
-<app-test></app-test>
-
+<app-test [myInput]="myInputmsg" (myOutput)="getChildData($event)"></app-test>
+<p class="outputmsg" style="color:red">{{myOutput}}</p>
 <h1 class="content" id="test">{{ title }} app is running!</h1>
 
 <form [formGroup]="regForm">

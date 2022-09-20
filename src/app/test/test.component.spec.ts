@@ -1,27 +1,57 @@
 import { DebugElement } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { AppComponent } from '../app.component';
+import { TestService } from '../test.service';
 
 import { TestComponent } from './test.component';
+
+class MockTestService extends TestService
+{
+  public NewSaveMethod()
+  {
+    return true;
+  }
+}
 
 describe('TestComponent', () => {
   let component: TestComponent;
   let fixture: ComponentFixture<TestComponent>;
+
+  // let appComponent: AppComponent;
+  // let appfixture: ComponentFixture<AppComponent>;
+
   let debugElement: DebugElement;
+  let service: TestService;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TestComponent ],
+      declarations: [ TestComponent ,AppComponent],
+      providers: [ TestService ],
       imports: [FormsModule]
     })
     .compileComponents();
+
+    TestBed.overrideComponent(
+      TestComponent,
+      {set:
+        {providers:
+          [{provide:TestService,useClass: MockTestService}]
+        }
+      }
+    )
 
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TestComponent);
     component = fixture.componentInstance;
+    fixture.detectChanges();
+    // appfixture = TestBed.createComponent(AppComponent);
+    // appComponent = appfixture.componentInstance;
+
     debugElement= fixture.debugElement;
+    service=TestBed.inject(TestService);
 
     fixture.detectChanges();
   });
@@ -189,5 +219,51 @@ fixture.whenStable().then(() => {
       expect(element2.childElementCount).toEqual(1);
       expect(element2.children.length).toEqual(1);  
       expect(element2.children[0].innerHTML).toEqual('two is select'); 
-    })
+    });
+
+    // ngFor test cases 
+    it('tests the simple array -1',()=>{
+      const element:DebugElement[]=fixture.debugElement.queryAll(By.css('.ngFor1'));
+      expect(element.length).toEqual(4);
+      element.forEach((obj:DebugElement,index:number)=>{
+        expect(obj.children[0].nativeElement.innerHTML).toEqual(component.colorNames[index]);
+      })
+    });
+
+    it('tests the simple array of objects -2',()=>{
+      const element:DebugElement[]=fixture.debugElement.queryAll(By.css('.ngFor2'));
+      expect(element.length).toEqual(4);
+      element.forEach((obj:DebugElement,index:number)=>{
+        // console.log(obj.children[0].nativeElement.innerHTML);
+        
+        expect(obj.children[0].nativeElement.innerHTML).toEqual(component.colorList[index].name+" "+'-'+" "+component.colorList[index].id);
+      })
+    });
+
+    it('tests the simple array of objects -3',()=>{
+      const element:DebugElement[]=fixture.debugElement.queryAll(By.css('.ngFor3'));
+      expect(element.length).toEqual(4);
+      element.forEach((obj:DebugElement,index:number)=>{
+        const output=`${index} - ${index === 0 ? true: false} - ${index%2 === 0 ? true: false} - ${index%2 !==0 ? true: false} - ${element.length-1===index ? true: false}`        
+        expect(obj.children[0].nativeElement.innerHTML).toEqual(output);
+      })
+    });
+
+    // test cases for dependency injection
+    it('DI unit test using testbed get method',()=>{
+      expect(service instanceof TestService).toBeTruthy();
+    });
+
+    it('DI unit test using inject method',inject([TestService],(instanceService:TestService)=>{
+         expect(instanceService).toBeTruthy();
+         expect(instanceService instanceof TestService).toBeTruthy
+     }));
+
+     it('DI unit test with overriding',()=>{ 
+      let element=fixture.debugElement.injector.get(TestService);
+      expect(element instanceof (MockTestService)).toBeTruthy();
+     });
+
+    
 });
+

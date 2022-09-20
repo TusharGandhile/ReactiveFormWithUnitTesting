@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-test',
@@ -15,9 +15,38 @@ export class TestComponent implements OnInit {
   title='test title';
   num=25;
   selectedNum='one';
+  @Input()myInput!:string;
+  @Output()myOutput : EventEmitter<string> = new EventEmitter();
+  outputmsg="i am output directory";
+
   constructor() { }
 
+  colorNames=['black', 'white', 'red', 'blue']
+  colorList=[
+    {
+      name:'black',
+      id:1
+    },
+    {
+      name:'white',
+      id:2
+    },
+    {
+      name:'red',
+      id:3
+    },
+    {
+      name:'blue',
+      id:4
+    },
+  ];
   ngOnInit(): void {
+    this.title=this.myInput;
+    console.log(this.title);
+    this.sendValues()
+  }
+  sendValues(){
+    this.myOutput.emit(this.outputmsg);
   }
   setDefault(){
     this.title="dotnet office";
